@@ -71,3 +71,97 @@ export default function Counter() {
 ## 📌 Important Notes
 	•	"use client" must be the very first line in the file.
 	•	You can use Client Components inside Server Components, but not the other way around.
+
+## Components:
+
+## 1. Link
+- `<Link>` is a React component that extends the HTML `<a>` element to provide prefetching and client-side navigation between routes. It is the primary way to navigate between routes in Next.js.
+
+### Basic Usage:
+```
+import Link from 'next/link'
+ 
+export default function Page() {
+  return <Link href="/dashboard">Dashboard</Link>
+}
+```
+
+## 🔗 `<Link>` Component Props in Next.js
+
+| Prop         | Example                            | Type                | Required |
+|--------------|------------------------------------|---------------------|----------|
+| `href`       | `href="/dashboard"`                | `String` or `Object`| ✅ Yes   |
+| `replace`    | `replace={false}`                  | `Boolean`           | ❌       |
+| `scroll`     | `scroll={false}`                   | `Boolean`           | ❌       |
+| `prefetch`   | `prefetch={false}`                 | `Boolean` or `null` | ❌       |
+| `onNavigate` | `onNavigate={(e) => {}}`           | `Function`          | ❌       |
+
+## 2. Script
+- This API reference will help you understand how to use props available for the Script Component. For features and usage, please see the Optimizing Scripts page.
+
+```
+import Script from 'next/script'
+ 
+export default function Dashboard() {
+  return (
+    <>
+      <Script src="https://example.com/script.js" />
+    </>
+  )
+}
+```
+## 📜 `<Script>` Component Props in Next.js
+
+Here's a summary of the props available for the `<Script>` component:
+
+| Prop       | Example                             | Type      | Required                                           |
+|------------|-------------------------------------|-----------|----------------------------------------------------|
+| `src`      | `src="http://example.com/script"`   | `String`  | ✅ Required unless an inline script is used        |
+| `strategy` | `strategy="lazyOnload"`             | `String`  | ❌ Optional (e.g., `"beforeInteractive"`, `"afterInteractive"`, `"lazyOnload"`) |
+| `onLoad`   | `onLoad={onLoadFunc}`               | `Function`| ❌ Optional — called when script loads successfully |
+| `onReady`  | `onReady={onReadyFunc}`             | `Function`| ❌ Optional — triggered when the script is ready    |
+| `onError`  | `onError={onErrorFunc}`             | `Function`| ❌ Optional — handles script load failure           |
+
+## 3. Image
+
+- In Next.js, the Image component (from next/image) is a powerful tool designed to optimize image loading for better performance, SEO, and user experience. Here’s a quick breakdown of how to use it and what makes it special.
+
+## ✅ Basic Usage of next/image
+```
+import Image from 'next/image';
+
+export default function Example() {
+  return (
+    <Image
+      src="/images/profile.jpg"  // or external URL (if configured)
+      alt="Profile picture"
+      width={500}
+      height={500}
+    />
+  );
+}
+```
+
+## 🔍 Key Features
+
+- ✅ Automatic Image Optimization: Lazy loading, responsive sizing, compression.
+- ✅ Built-in CDN Support: Works great with Vercel and other CDNs.
+- ✅ Responsive Images: You can specify image sizes for different viewports.
+- ✅ Lazy Loading: Only loads images when they enter the viewport.
+
+### 🛠️ Image Component Props (next/image)
+
+| Prop           | Type                | Description                                                                 |
+|----------------|---------------------|-----------------------------------------------------------------------------|
+| `src`          | `string`            | The image source URL or path (local or remote if configured).              |
+| `alt`          | `string`            | Descriptive alt text for accessibility and SEO.                            |
+| `width`        | `number`            | Width of the image in pixels (required unless using `fill`).               |
+| `height`       | `number`            | Height of the image in pixels (required unless using `fill`).              |
+| `fill`         | `boolean`           | Makes the image fill its parent container (used with relative positioning).|
+| `sizes`        | `string`            | Describes image sizes for different viewport widths.                       |
+| `priority`     | `boolean`           | Loads the image eagerly (ideal for above-the-fold images).                 |
+| `placeholder`  | `"blur"` \| `"empty"` | Shows a blur preview while loading (only for local images).              |
+| `blurDataURL`  | `string`            | Base64-encoded image to use while loading if placeholder="blur".           |
+| `quality`      | `number` (1–100)    | Adjusts image quality (default is 75).                                     |
+| `style`        | `object`            | Custom inline styles (e.g., `objectFit`, `borderRadius`).                  |
+| `className`    | `string`            | Tailwind or other class names for styling.                                 |
