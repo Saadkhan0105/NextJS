@@ -165,3 +165,47 @@ export default function Example() {
 | `quality`      | `number` (1–100)    | Adjusts image quality (default is 75).                                     |
 | `style`        | `object`            | Custom inline styles (e.g., `objectFit`, `borderRadius`).                  |
 | `className`    | `string`            | Tailwind or other class names for styling.                                 |
+
+
+## Server Actions
+
+- In Next.js 13+ (App Router), Server Actions are a new feature that allow you to run server-side functions directly from your UI components, without writing full API routes or using client-side fetch().
+- They simplify form handling, database operations, and secure backend logic.
+
+## ✅ How Server Actions Work
+- Run on the server by default.
+- Used in Server Components (no "use client").
+- Can be passed to `<form action={...}>` or invoked in certain contexts.
+
+### Example:
+```
+// app/page.js (Server Component)
+export default function Home() {
+  async function handleAction(formData) {
+    'use server';
+    const name = formData.get('name');
+    console.log('Server received:', name);
+    // You could write to a DB here
+  }
+
+  return (
+    <form action={handleAction}>
+      <input type="text" name="name" placeholder="Enter name" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+- 🧠 Here, handleAction() is a Server Action  it runs on the server when the form is submitted.
+
+## ✅ Why Use Server Actions?
+
+| Feature                | Benefit                                               |
+|------------------------|-------------------------------------------------------|
+| 🔐 **Runs on Server**       | Keeps logic secure (no client exposure to secrets or DB) |
+| 📦 **No API Route Needed**  | Cleaner codebase — fewer files and no need to write `fetch` |
+| 📄 **Works with `<form>`**  | Great for traditional and accessible form handling        |
+| ⚙️ **Uses FormData**        | Easily handles file uploads and complex form data         |
+| 🚀 **Better Performance**   | No extra HTTP request like `fetch('/api/…')`               |
+
+> Server Actions simplify server-side logic by allowing you to run functions directly from UI components — no more writing separate API routes or boilerplate.
