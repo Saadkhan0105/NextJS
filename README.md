@@ -209,3 +209,36 @@ export default function Home() {
 | 🚀 **Better Performance**   | No extra HTTP request like `fetch('/api/…')`               |
 
 > Server Actions simplify server-side logic by allowing you to run functions directly from UI components — no more writing separate API routes or boilerplate.
+
+## Middlewares:
+- Middleware allows you to run code before a request is completed. Then, based on the incoming request, you can modify the response by rewriting, redirecting, modifying the request or response headers, or responding directly.
+- Middleware runs before cached content and routes are matched.
+
+## Use Cases
+- Some common scenarios where Middleware is effective include:
+
+- Quick redirects after reading parts of the incoming request
+- Rewriting to different pages based on A/B tests or experiments
+- Modifying headers for all pages or a subset of pages
+
+### Middleware is not a good fit for:
+
+- Slow data fetching
+- Session management
+
+> Use the file middleware.ts (or .js) in the root of your project to define Middleware.
+
+## Example:
+```
+import { NextResponse } from 'next/server'
+ 
+// This function can be marked `async` if using `await` inside
+export function middleware(request) {
+  return NextResponse.redirect(new URL('/home', request.url))
+}
+ 
+// See "Matching Paths" below to learn more
+export const config = {
+  matcher: '/about/:path*',
+}
+```
