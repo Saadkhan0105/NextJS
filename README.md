@@ -242,3 +242,7 @@ export const config = {
   matcher: '/about/:path*',
 }
 ```
+
+
+## Dynamic Routes:
+- Dynamic routes in Next.js (App Router) allow you to create pages based on URL parameters (like user ID, product slug, etc.).
