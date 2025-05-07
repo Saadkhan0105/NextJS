@@ -315,3 +315,81 @@ export default function Page() {
 - These APIs only work in the App Router (app/ directory).
 - Don’t use next/router from the Pages Directory with App Router projects.
 - Always mark components using useRouter, useSearchParams, etc., with 'use client'.
+
+## Next.js Rendering Strategies: SSR, SSG, and ISR
+1. Server-Side Rendering (SSR):
+- SSR (Server-Side Rendering) in Next.js is a method where the HTML of a page is generated on the server at the time of each request.
+
+
+### 🔍 How It Works:
+- When a user visits a page:
+  1. The server fetches any required data.
+	2.	It renders the page to HTML with that data.
+	3.	It sends the fully-rendered HTML to the browser.
+
+### ✅ Benefits:
+- Always Fresh: Great for dynamic or user-specific content (e.g., dashboards, authenticated pages).
+- SEO Friendly: HTML is sent with content already loaded.
+- Fast First Load: No waiting for client-side rendering.
+
+### Syntax:
+```
+
+export default async function Page() {
+  const res = await fetch('https://api.example.com/data', { cache: 'no-store' });
+  const data = await res.json();
+  return <div>{data.title}</div>;
+}
+```
+2. SSG (Static Site Generation):
+
+- SSG in Next.js means that pages are pre-rendered as static HTML at build time — before any users visit them.
+
+### 🔍 How It Works:
+- When a user visits a page:
+  1. When you run next build, Next.js fetches any required data.
+	2.	It generates static HTML files for each page.
+	3.	These static pages are then served instantly when requested..
+
+### ✅ Benefits:
+- Ultra Fast: Served from a CDN or cache — no backend involved.
+- SEO Friendly: HTML is fully rendered at build.
+-	Best for Static Content: e.g., marketing pages, blogs, docs.
+
+```
+
+export default async function Page() {
+  const res = await fetch('https://api.example.com/data'); // uses default caching
+  const data = await res.json();
+
+  return <div>{data.title}</div>;
+}
+```
+
+3. ISR (Incremental Static Regeneration) or ISG (Incremental Static Generation):
+- ISR also called ISG (Incremental Static Generation) is a powerful feature in Next.js that allows you to:
+> Update static pages after deployment — without rebuilding the whole site.
+
+### 🔍 How It Works:
+	1.	At build time, Next.js generates static pages like SSG.
+	2.	When a page is requested after the revalidation time:
+	•	It serves the old cached version immediately.
+	•	In the background, it regenerates a fresh version.
+	•	The next request sees the updated content.
+
+### ✅ Benefits:
+-	Best of Both Worlds: Fast like SSG, fresh like SSR.
+- No Full Rebuild Needed: Only regenerates specific pages.
+-	Great for Updating Pages Periodically: e.g., product pages, news articles.
+
+```
+
+export const revalidate = 60; // in seconds
+
+export default async function Page() {
+  const res = await fetch('https://api.example.com/data');
+  const data = await res.json();
+
+  return <div>{data.title}</div>;
+}
+```
