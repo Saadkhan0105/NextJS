@@ -246,3 +246,72 @@ export const config = {
 
 ## Dynamic Routes:
 - Dynamic routes in Next.js (App Router) allow you to create pages based on URL parameters (like user ID, product slug, etc.).
+
+## Next/navigation Module:
+- The next/navigation module in Next.js (App Router) provides hooks and functions for client-side and server-side navigation in the App Directory (not Pages Directory).
+
+### ✅ Common Features from next/navigation:
+1. useRouter() — Client-side navigation
+- For navigating programmatically on the client side.
+```
+'use client';
+
+import { useRouter } from 'next/navigation';
+
+export default function MyComponent() {
+  const router = useRouter();
+
+  const goToDashboard = () => {
+    router.push('/dashboard');
+  };
+
+  return <button onClick={goToDashboard}>Go to Dashboard</button>;
+}
+```
+2. usePathname() — Get current route path
+- Get the current URL path in a client component.
+```
+'use client';
+
+import { usePathname } from 'next/navigation';
+
+export default function PathDisplay() {
+  const pathname = usePathname();
+
+  return <p>Current Path: {pathname}</p>;
+}
+```
+3. useSearchParams() — Read URL query parameters
+- Use this to get query string values like ?id=123.
+```
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+
+export default function QueryReader() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+
+  return <p>ID: {id}</p>;
+}
+```
+4. redirect() — Server-side redirection
+- Use this in server components or layout.tsx, page.tsx, route.ts, etc.
+```
+import { redirect } from 'next/navigation';
+
+export default function Page() {
+  const isLoggedIn = false;
+
+  if (!isLoggedIn) {
+    redirect('/login');
+  }
+
+  return <div>Private Page</div>;
+}
+```
+
+## ⚠️ Important Notes:
+- These APIs only work in the App Router (app/ directory).
+- Don’t use next/router from the Pages Directory with App Router projects.
+- Always mark components using useRouter, useSearchParams, etc., with 'use client'.
