@@ -393,3 +393,52 @@ export default async function Page() {
   return <div>{data.title}</div>;
 }
 ```
+
+## Environment Variables:
+- In Next.js, environment variables let you securely manage configuration values (like API keys, URLs, or secrets) without hardcoding them into your codebase.
+
+
+### 🔐 How to Use Environment Variables in Next.js
+1. Create a .env.local file (not committed to Git):
+```
+NEXT_PUBLIC_API_URL=https://api.example.com
+SECRET_API_KEY=abc123xyz
+```
+> 🔸 All env variables must start with NEXT_PUBLIC_ to be exposed to the browser.
+
+2. Access Environment Variables
+- In Server Code (e.g., getServerSideProps, API Routes):
+```
+const key = process.env.SECRET_API_KEY;
+```
+- In Client Code:
+```
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+```
+> ✅ Client-side code can only access variables that start with NEXT_PUBLIC_.
+
+# 🌐 Environment Variable Files in Next.js
+
+Next.js supports multiple `.env` files to manage configuration across environments.
+
+---
+
+## 📂 Supported `.env` File Types
+
+| File Name          | Description                                 | Loaded In             | Git Should Track? |
+|--------------------|---------------------------------------------|------------------------|--------------------|
+| `.env.local`       | Local development environment overrides      | Always (highest priority) | ❌ No              |
+| `.env.development` | Used during `next dev` (development mode)   | `next dev`             | ✅ Yes              |
+| `.env.production`  | Used during `next build` & `next start`     | `next build`, `start`  | ✅ Yes              |
+| `.env.test`        | Used during test runs                       | Testing frameworks     | ✅ Yes              |
+
+---
+
+
+### 🔄 Reloading
+-	Changes to .env.* require a server restart (ctrl + c and run npm run dev again).
+
+### ✅ Best Practices
+-	Never expose secrets in NEXT_PUBLIC_ variables.
+-	Use .env.local for API keys, tokens, and URLs.
+-	Add .env.local to .gitignore.
